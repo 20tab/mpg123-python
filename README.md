@@ -50,4 +50,4 @@ more examples, included streaming of webradio are available here: https://github
 
 ## Test suite
 
-The example files are "Royalty Free Music from Bensound" (http://www.bensound.com). For all of the test files a ID3v1 record has been aded
+The example files are "Royalty Free Music from Bensound" (http://www.bensound.com). For all of the test files a ID3v1 record has been added
