@@ -8,7 +8,7 @@ out = Out123()
 
 async def radio_streaming(mp3, out):
     async with aiohttp.ClientSession() as session:
-        async with session.get('http://hi5.death.fm') as response:
+        async with session.get('http://stream.radiometal.com:8010') as response:
             while True:
                 chunk = await response.content.read(4096)
                 if not chunk:
