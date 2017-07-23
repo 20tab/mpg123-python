@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='mpg123',
-      version='0.1',
+      version='0.2',
       description='Python wrapper for libmpg123',
       author='20Tab S.r.l.',
       author_email='info@20tab.com',
