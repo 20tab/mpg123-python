@@ -12,6 +12,16 @@ DONE = -12
 MONO = 1
 STEREO = 2
 
+class ID3v1(ctypes.Structure):
+    _fields_ = [
+                   ('tag', ctypes.c_char * 3),
+                   ('title', ctypes.c_char * 30),
+                   ('artist', ctypes.c_char * 30),
+                   ('album', ctypes.c_char * 30),
+                   ('year', ctypes.c_char * 4),
+                   ('comment', ctypes.c_char * 30),
+                   ('genre', ctypes.c_ubyte),
+               ]
 
 class Mpg123:
 
@@ -45,6 +55,12 @@ class Mpg123:
         pass
 
     class DoneException(Exception):
+        pass
+
+    class LengthException(Exception):
+        pass
+
+    class ID3Exception(Exception):
         pass
 
     def plain_strerror(self, errcode):
@@ -88,6 +104,17 @@ class Mpg123:
         if errcode != OK:
             raise self.FeedingException(self.plain_strerror(errcode))
 
+    def get_id3(self):
+        v1 = ctypes.c_void_p()
+        v2 = ctypes.c_void_p()
+        errcode = self._lib.mpg123_id3(self.handle, ctypes.pointer(v1), ctypes.pointer(v2))
+        if errcode != OK:
+            raise self.ID3Exception(self.plain_strerror(errcode))
+        if v1.value == None:
+            raise self.ID3Exception(self.plain_strerror(errcode))
+
+        return ctypes.cast(v1, ctypes.POINTER(ID3v1)).contents
+
     def get_format(self):
         rate = ctypes.c_int(0)
         channels = ctypes.c_int(0)
@@ -102,6 +129,22 @@ class Mpg123:
                 raise self.NeedMoreException(self.plain_strerror(errcode))
             raise self.FormatException(self.plain_strerror(errcode))
         return (rate.value, channels.value, self._lib.mpg123_encsize(encoding))
+
+    def length(self):
+        errcode = self._lib.mpg123_length(self.handle)
+        if errcode <= 0:
+            if errcode == NEED_MORE:
+                raise self.NeedMoreException(self.plain_strerror(errcode))
+            raise self.LengthException(self.plain_strerror(errcode))
+        return errcode
+
+    def frame_length(self):
+        errcode = self._lib.mpg123_framelength(self.handle)
+        if errcode <= 0:
+            if errcode == NEED_MORE:
+                raise self.NeedMoreException(self.plain_strerror(errcode))
+            raise self.LengthException(self.plain_strerror(errcode))
+        return errcode
 
     def decode_frame(self):
         audio = ctypes.c_char_p()
