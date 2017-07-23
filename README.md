@@ -45,6 +45,9 @@ for frame in mp3.iter_frames():
 wav.close()
 ```
 
+
+more examples, included streaming of webradio are available here: https://github.com/20tab/mpg123-python/tree/master/examples
+
 ## Test suite
 
 The example files are "Royalty Free Music from Bensound" (http://www.bensound.com). For all of the test files a ID3v1 record has been aded
