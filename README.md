@@ -1,5 +1,9 @@
 # mpg123-python
-mpg123 python wrapper
+mpg123 python wrapper using ctypes
+
+CPython 2 and 3 are supported as well as PyPy
+
+## Quick intro
 
 ```python
 from mpg123 import Mpg123, Out123
