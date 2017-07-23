@@ -5,6 +5,8 @@ CPython 2 and 3 are supported as well as PyPy
 
 ## Quick intro
 
+this is a simple mp3 player (libout123 is part of the mpg123 distribution)
+
 ```python
 from mpg123 import Mpg123, Out123
 
