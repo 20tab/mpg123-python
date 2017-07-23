@@ -91,6 +91,9 @@ class Mpg123:
         if not library_path:
             library_path = find_library('mpg123')
 
+        if not library_path:
+            raise self.LibInitializationException('libmpg123 not found')
+
         lib = ctypes.CDLL(library_path)
         errcode = lib.mpg123_init()
         if errcode != OK:
@@ -98,6 +101,7 @@ class Mpg123:
         return lib
 
     def __init__(self, filename=None, library_path=None):
+        self.handle = None
         if not self._lib:
             self._lib = self.init_library(library_path)
         self._lib.mpg123_new.restype = ctypes.c_void_p
@@ -247,6 +251,9 @@ class Out123:
         if not library_path:
             library_path = find_library('out123')
 
+        if not library_path:
+            raise self.LibInitializationException('libout123 not found')
+
         return ctypes.CDLL(library_path)
 
     def plain_strerror(self, errcode):
@@ -254,6 +261,7 @@ class Out123:
         return self._lib.out123_plain_strerror(errcode).decode()
 
     def __init__(self, library_path=None):
+        self.handle = None
         if not self._lib:
             self._lib = self.init_library(library_path)
         self._lib.out123_new.restype = ctypes.c_void_p
