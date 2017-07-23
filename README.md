@@ -1,6 +1,8 @@
 # mpg123-python
 mpg123 python wrapper using ctypes
 
+mpg123 libraries are available on the official site: https://www.mpg123.de/
+
 CPython 2 and 3 are supported as well as PyPy
 
 ## Quick intro
