@@ -1,4 +1,5 @@
 import unittest
+import mpg123
 from mpg123 import Mpg123
 
 
@@ -46,6 +47,7 @@ class TestMpg123(unittest.TestCase):
         self.assertEqual(channels, 2)
         self.assertEqual(encoding, 208)
         self.assertEqual(mp3.get_width_by_encoding(encoding), 2)
+        self.assertEqual(encoding, mpg123.ENC_SIGNED_16)
         frame = mp3.decode_frame()
         self.assertEqual(len(frame), 188)
         frame = mp3.decode_frame()
