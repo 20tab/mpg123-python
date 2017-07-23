@@ -41,10 +41,11 @@ class TestMpg123(unittest.TestCase):
                 if not data:
                     break
                 mp3.feed(data)
-        rate, channels, width = mp3.get_format()
+        rate, channels, encoding = mp3.get_format()
         self.assertEqual(rate, 44100)
         self.assertEqual(channels, 2)
-        self.assertEqual(width, 2)
+        self.assertEqual(encoding, 208)
+        self.assertEqual(mp3.get_width_by_encoding(encoding), 2)
         frame = mp3.decode_frame()
         self.assertEqual(len(frame), 188)
         frame = mp3.decode_frame()
@@ -52,17 +53,17 @@ class TestMpg123(unittest.TestCase):
 
     def test_file_format(self):
         mp3 = Mpg123('tests/bensound-epic.mp3')
-        rate, channels, width = mp3.get_format()
+        rate, channels, encoding = mp3.get_format()
         self.assertEqual(rate, 44100)
         self.assertEqual(channels, 2)
-        self.assertEqual(width, 2)
+        self.assertEqual(encoding, 208)
 
     def test_file_format2(self):
         mp3 = Mpg123('tests/bensound-scifi.mp3')
-        rate, channels, width = mp3.get_format()
+        rate, channels, encoding = mp3.get_format()
         self.assertEqual(rate, 44100)
         self.assertEqual(channels, 2)
-        self.assertEqual(width, 2)
+        self.assertEqual(encoding, 208)
 
     def test_file_frame(self):
         mp3 = Mpg123('tests/bensound-epic.mp3')
