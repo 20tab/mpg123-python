@@ -1,5 +1,6 @@
 import ctypes
 from ctypes.util import find_library
+import sys
 
 VERBOSE = 0
 
@@ -124,12 +125,13 @@ class Mpg123:
     def feed(self, data):
         if not self.is_feed:
             raise self.NotFeedException('instance is not in feed mode')
-        if isinstance(data, str):
+        # encode string to bytes in modern python
+        if sys.version_info[0] >= 3 and isinstance(data, str):
             data = data.encode()
         data = memoryview(data)
         errcode = self._lib.mpg123_feed(self.handle,
                                         ctypes.c_char_p(data.tobytes()),
-                                        data.nbytes)
+                                        len(data))
         if errcode != OK:
             raise self.FeedingException(self.plain_strerror(errcode))
 
@@ -285,12 +287,13 @@ class Out123:
             raise self.StartException(self.plain_strerror(errcode))
 
     def play(self, data):
-        if isinstance(data, str):
+        # encode string to bytes in modern python
+        if sys.version_info[0] >= 3 and isinstance(data, str):
             data = data.encode()
         data = memoryview(data)
         return self._lib.out123_play(self.handle,
                                      ctypes.c_char_p(data.tobytes()),
-                                     data.nbytes)
+                                     len(data))
 
     def __del__(self):
         if not self.handle:
