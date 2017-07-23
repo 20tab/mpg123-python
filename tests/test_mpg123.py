@@ -1,6 +1,7 @@
 import unittest
 import mpg123
 from mpg123 import Mpg123
+import sys
 
 
 class TestMpg123(unittest.TestCase):
@@ -96,7 +97,10 @@ class TestMpg123(unittest.TestCase):
     def test_file_frame_data(self):
         mp3 = Mpg123('tests/bensound-epic.mp3')
         frames = [frame for frame in mp3.iter_frames()]
-        self.assertEqual(frames[17][22], 30)
+        if sys.version_info[0] >= 3:
+            self.assertEqual(frames[17][22], 30)
+        else:
+            self.assertEqual(ord(frames[17][22]), 30)
 
     def test_file_length(self):
         mp3 = Mpg123('tests/bensound-epic.mp3')

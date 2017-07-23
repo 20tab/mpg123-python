@@ -1,5 +1,9 @@
 from mpg123 import Mpg123, Out123
-from urllib.request import urlopen
+try:
+    # old python2
+    from urllib2 import urlopen
+except ImportError:
+    from urllib.request import urlopen
 
 mp3 = Mpg123()
 
