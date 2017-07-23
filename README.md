@@ -21,7 +21,7 @@ for frame in mp3.iter_frames(out.start):
     out.play(frame)
 ```
 
-this is a nother example showing how to encode an mp3 to a wave file:
+this is another example showing how to encode an mp3 to a wave file:
 
 ```python
 from mpg123 import Mpg123
