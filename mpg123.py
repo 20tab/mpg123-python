@@ -92,6 +92,9 @@ class Mpg123:
             library_path = find_library('mpg123')
 
         if not library_path:
+            library_path = find_library('libmpg123-0')
+
+        if not library_path:
             raise self.LibInitializationException('libmpg123 not found')
 
         lib = ctypes.CDLL(library_path)
@@ -250,6 +253,9 @@ class Out123:
     def init_library(self, library_path=None):
         if not library_path:
             library_path = find_library('out123')
+
+        if not library_path:
+            library_path = find_library('libout123-0')
 
         if not library_path:
             raise self.LibInitializationException('libout123 not found')
