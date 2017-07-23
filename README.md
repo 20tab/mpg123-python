@@ -5,7 +5,7 @@ CPython 2 and 3 are supported as well as PyPy
 
 ## Quick intro
 
-this is a simple mp3 player (libout123 is part of the mpg123 distribution)
+this is a simple mp3 player using the first available sound device as the output (libout123 is part of the mpg123 distribution)
 
 ```python
 from mpg123 import Mpg123, Out123
@@ -19,6 +19,30 @@ out = Out123()
 # decode mp3 frames and send them to the sound device
 for frame in mp3.iter_frames(out.start):
     out.play(frame)
+```
+
+this is a nother example showing how to encode an mp3 to a wave file:
+
+```python
+from mpg123 import Mpg123
+import wave
+
+mp3 = Mpg123('tests/bensound-epic.mp3')
+
+# get informations about the file
+rate, channels, encoding = mp3.get_format()
+
+# prepare the wave header
+wav = wave.open('bensound-epic.wav', 'wb')
+wav.setnchannels(channels)
+wav.setframerate(rate)
+wav.setsampwidth(mp3.get_width_by_encoding(encoding))
+
+# fill the wave file
+for frame in mp3.iter_frames():
+    wav.writeframes(frame)
+
+wav.close()
 ```
 
 ## Test suite
